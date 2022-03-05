@@ -1,0 +1,13 @@
+prefix=C:/Anaconda/envs/way_sim/Library
+exec_prefix=C:/Anaconda/envs/way_sim/Library
+libdir=C:/Anaconda/envs/way_sim/Library/lib
+sharedlibdir=C:/Anaconda/envs/way_sim/Library/lib
+includedir=C:/Anaconda/envs/way_sim/Library/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.11
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
