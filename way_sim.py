@@ -1,6 +1,9 @@
 import datetime as dt
 import random as rn
+import sys
 from time import sleep
+import time
+import shutil
 
 
 def write_line(text_line, out_file_name='Data_out/way_sim.out'):
@@ -21,14 +24,40 @@ def get_rn_start_stop_val(max_len=130):
 
     return int(tmp_start), int(tmp_stop)
 
+def generate_new_name(base_part = 'way_sim'):
+    new_name = base_part + '_' + dt.date.today().year.__str__()
+
+    if dt.date.today().month < 10:
+        tmp = new_name + '0' + dt.date.today().month.__str__()
+    else:
+        tmp = new_name + dt.date.today().month.__str__()
+
+    if dt.date.today().day < 10:
+        new_name = new_name + '0' + dt.date.today().day.__str__()
+    else:
+        new_name = new_name + dt.date.today().day.__str__()
+
+    random_name_part =  int(rn.random() * 100000).__str__()
+    new_name += random_name_part
+    return new_name
+
 if __name__ == '__main__':
     separator = '|'
+    log_line_sleep_interval = 3
+    change_interval = 1.0
+    current_file_name = 'Data_out/way_sim'
+
     rn.seed()
-    out_file_name = 'Data_out/way_sim.out'
     print(f'** Way simulation started ** \n\tcurrent time {dt.datetime.now()}')
+
     while True:
-        sleep( rn.random() * 10 % 3 )
+        last_name_change = time.time() + change_interval
+        sleep( rn.random() * 10 % log_line_sleep_interval )
+        if time.time() > last_name_change:
+            shutil.move(current_file_name, generate_new_name(current_file_name))
+            print(f'\t-> File name changed: {dt.datetime.now()}')
+
         with open('Data_in/Lorem_ipsum.txt', 'r') as Lorem_descriptor:
             for lorem_line in Lorem_descriptor:
                 start_index , stop_index = get_rn_start_stop_val()
-                write_line(dt.datetime.now().__str__() + separator + lorem_line[start_index:stop_index], out_file_name)
+                write_line(dt.datetime.now().__str__() + separator + lorem_line[start_index:stop_index], out_file_name = current_file_name)
