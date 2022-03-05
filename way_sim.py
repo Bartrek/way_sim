@@ -38,7 +38,7 @@ def generate_new_name(base_part = 'way_sim'):
         new_name = new_name + dt.date.today().day.__str__()
 
     random_name_part =  int(rn.random() * 100000).__str__()
-    new_name += random_name_part
+    new_name += random_name_part + '.out'
     return new_name
 
 if __name__ == '__main__':
